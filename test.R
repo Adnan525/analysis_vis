@@ -6,6 +6,19 @@ library(dplyr)
 # data
 data("iris")
 
+generate_plot <- function(df, x, species){
+  color <- ifelse(species == "setosa", "red", ifelse(species == "versicolor", "green", "blue"))
+  
+  ggplot(
+    df, aes(x = {{x}})) +
+    geom_histogram(binwidth = 1, fill = color) +
+    labs(x = paste("Total count =", nrow(df))) +
+    theme_minimal() +
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank())+ 
+    theme(legend.position = "none")
+}
+
 ui <- fluidPage(
   #uiOutput("titlePanelUI"),
   titlePanel("Topic 2 Q8"),
@@ -71,53 +84,30 @@ server <- function(input, output) {
   
   # histogram plots
   output$iris_plot <- renderPlot({
-    p1 <- ggplot(
-      sep_length_filter(), aes(x = Sepal.Length, fill = Species)) +
-      geom_histogram(binwidth = 1) +
-      labs(y = paste("count =", nrow(sep_length_filter()))) +
-      labs(x = "Sepal Length") +
-      theme_minimal() +
-      theme(panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank())+ 
-      theme(legend.position = "none")
     
-    p2 <- ggplot(
-      sep_width_filter(), aes(x = Sepal.Width, fill = Species)) +
-      geom_histogram(binwidth = 1) +
-      labs(y = paste("count =", nrow(sep_width_filter()))) +
-      labs(x = "Sepal Width") +
-      theme_minimal() +
-      theme(panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank())+ 
-      theme(legend.position = "none")
+    # just for legend
+    p0 <- ggplot(iris, aes(x = Sepal.Length, fill = Species))+
+      geom_histogram(binwidth = 1)+
+      scale_fill_manual(values = c("setosa" = "red", "versicolor" = "green", "virginica" = "blue")) +
+      theme_minimal()
     
-    p3 <- ggplot(
-      pet_length_filter(), aes(x = Petal.Length, fill = Species)) +
-      geom_histogram(binwidth = 1) +
-      labs(y = paste("count =", nrow(pet_length_filter()))) +
-      labs(x = "Petal Length") +
-      theme_minimal() +
-      theme(panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank())+ 
-      theme(legend.position = "none")
+    # actual plot
+    p1 <- generate_plot(sep_length_filter(), Sepal.Length, input$select_species)
+    p2 <- generate_plot(sep_width_filter(), Sepal.Width, input$select_species)
+    p3 <- generate_plot(pet_length_filter(), Petal.Length, input$select_species)
+    p4 <- generate_plot(pet_width_filter(), Petal.Width, input$select_species)
     
-    p4 <- ggplot(
-      pet_width_filter(), aes(x = Petal.Width, fill = Species)) +
-      geom_histogram(binwidth = 1) +
-      labs(y = paste("count =", nrow(pet_width_filter()))) +
-      labs(x = "Petal Width") +
-      theme_minimal() +
-      theme(panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank())+ 
-      theme(legend.position = "none")
     
     # legend
-    legend <- get_legend(iris)+
-      theme(legend.position = "bottom")
+    legend <- get_legend(p0)
     
     # arrange
-    prow <- plot_grid(p1, p2, p3, p4, nrow = 2, ncol = 2)
-    plot_grid(prow, legend, rel_widths = c(3, .4))
+    # prow <- plot_grid(p1, p2, p3, p4, nrow = 2, ncol = 2)
+    # plot_grid(prow, legend)
+
+    plot_grid(NULL, legend, p1, p2, p3, p4, ncol = 2)
+    
+    
     
   })
 }

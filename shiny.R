@@ -107,6 +107,7 @@ server <- function(input, output) {
       theme(panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank())
     
+    
     # arrange
     plot_grid(p1, p2, p3, p4, nrow = 2, ncol = 2)
     
