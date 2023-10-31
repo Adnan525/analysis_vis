@@ -1,14 +1,8 @@
 library(ggplot2)
 library(tidyr)
+library(directlabels)
 
-data <- data.frame(
-  ResearchCentre = c("ALL", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"),
-  "2015" = c("7.2%", "2.5%", "10.7%", "9.2%", "8.3%", "7.9%", "8.7%", "3.7%", "8.4%", "5.1%", "6.4%", "9.2%", "9.9%", "5.6%"),
-  "2016" = c("7.6%", "3.0%", "11.4%", "9.7%", "8.6%", "8.2%", "9.1%", "4.0%", "8.8%", "5.6%", "6.8%", "9.7%", "10.2%", "6.0%"),
-  "2017" = c("8.0%", "3.4%", "11.9%", "10.2%", "9.0%", "8.5%", "9.6%", "4.3%", "9.2%", "6.0%", "7.1%", "10.1%", "11.0%", "6.2%"),
-  "2018" = c("8.1%", "3.7%", "12.0%", "10.4%", "9.1%", "10.1%", "9.6%", "4.5%", "9.5%", "6.2%", "7.2%", "10.2%", "11.1%", "6.3%"),
-  "2019" = c("8.6%", "4.4%", "12.5%", "10.9%", "9.5%", "11.3%", "10.1%", "5.0%", "10.0%", "6.7%", "7.6%", "10.5%", "11.6%", "6.7%")
-)
+data <- read.csv("dataset_cholesterol.csv")
 colnames(data) <- c("ResearchCentre", "2015", "2016", "2017", "2018", "2019")
 
 # Remove '%' signs and convert values to numeric
@@ -24,3 +18,22 @@ ggplot(data_long, aes(x = as.numeric(Year), y = Percentage, color = ResearchCent
   labs(title = "Percentage by Research Centre Over the Years", x = "Year", y = "Percentage") +
   theme_minimal() +
   scale_x_continuous(breaks = 2015:2019)
+
+# slope
+df <- data_long %>% 
+  filter(Year == 2015 | Year == 2019) %>% 
+  group_by(ResearchCentre) %>% 
+  mutate(increase = round(((max(Percentage) - min(Percentage))/ min(Percentage)) * 100, 2)) %>% 
+  mutate(risk_category = ifelse(increase <= 20, "low(<20)", ifelse(increase > 20 & increase < 40, "moderate(<40)", "high(>40)"))) %>% 
+  mutate(label_show = ifelse(risk_category == "high(>40)" | risk_category == "moderate(<40)", paste("Test Group : ", ResearchCentre, ", Increase :", as.character(increase), "%"), ""))
+
+ggplot(df, aes(x = Year, y = Percentage, color = risk_category, group = ResearchCentre)) +
+  geom_line() +
+  labs(title = "Cholesterol Rate in year 2015 and 2019", x = "Year", y = "Percentage") +
+  # geom_dl(aes(label = ResearchCentre), method = list(dl.combine("first.points"), cex = 1, hjust = 2)) +
+  geom_dl(aes(label = label_show), method = list(dl.combine("last.points"), hjust = -0.2)) +
+  scale_color_manual(values = c("high(>40)" = "red", "low(<20)" = "green", "moderate(<40)" = "blue")) +
+  theme_minimal()+
+  theme(legend.position = "bottom")
+
+
