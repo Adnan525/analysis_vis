@@ -1,0 +1,20 @@
+
+<head>
+<script src='https://aframe.io/releases/1.4.0/aframe.min.js'></script>
+<script src='https://unpkg.com/aframe-charts-component/dist/aframe-charts-component.min.js'></script>
+</head>
+<body>
+<a-scene>
+<a-asset>
+<a-asset>
+  <a-asset-item id='data' src='[{"x":5.9975,"y":3.1539,"z":5.4517,"size":1,"color":"#ff0000"},{"x":5.3265,"y":5.6236,"z":5.4474,"size":1,"color":"#ff0000"},{"x":5.3883,"y":6.8689,"z":6.5091,"size":1,"color":"#ff0000"},{"x":9.5625,"y":8.5529,"z":8.9821,"size":1,"color":"#ff0000"},{"x":6.1814,"y":1.4425,"z":6.1497,"size":1,"color":"#ff0000"},{"x":7.9937,"y":9.7066,"z":8.2791,"size":1,"color":"#ff0000"},{"x":6.833,"y":2.806,"z":5.7149,"size":1,"color":"#ff0000"},{"x":5.4782,"y":5.7945,"z":6.6708,"size":1,"color":"#ff0000"},{"x":7.6692,"y":9.4322,"z":8.0862,"size":1,"color":"#ff0000"},{"x":7.6147,"y":9.9491,"z":8.1969,"size":1,"color":"#ff0000"},{"x":2.9883,"y":1.841,"z":9.5561,"size":1,"color":"#ff0000"},{"x":4.0751,"y":7.4487,"z":3.9874,"size":1,"color":"#ff0000"},{"x":5.1046,"y":2.5165,"z":5.8953,"size":1,"color":"#ff0000"},{"x":5.4269,"y":2.1101,"z":6.6237,"size":1,"color":"#ff0000"},{"x":3.3138,"y":3.3756,"z":4.5332,"size":1,"color":"#ff0000"},{"x":4.3611,"y":5.2214,"z":6.1738,"size":1,"color":"#ff0000"},{"x":3.7491,"y":4.4497,"z":5.5358,"size":1,"color":"#ff0000"},{"x":3.8037,"y":4.5153,"z":5.6013,"size":1,"color":"#ff0000"},{"x":3.5283,"y":3.3845,"z":4.7327,"size":1,"color":"#ff0000"},{"x":3.7477,"y":4.9521,"z":6.1316,"size":1,"color":"#ff0000"},{"x":2.797,"y":3.4925,"z":4.455,"size":1,"color":"#ff0000"},{"x":5.1588,"y":5.2424,"z":7.4492,"size":1,"color":"#ff0000"},{"x":4.8424,"y":4.863,"z":6.9691,"size":1,"color":"#ff0000"},{"x":9.6939,"y":3.6734,"z":4.5099,"size":1,"color":"#ff0000"},{"x":9.2789,"y":3.9537,"z":5.1746,"size":1,"color":"#ff0000"},{"x":0.2054,"y":5.4236,"z":5.9765,"size":1,"color":"#ff0000"},{"x":5.554,"y":3.5361,"z":8.5114,"size":1,"color":"#ff0000"},{"x":4.3816,"y":1.7626,"z":4.8125,"size":1,"color":"#ff0000"},{"x":0.7038,"y":5.2972,"z":5.991,"size":1,"color":"#ff0000"},{"x":0.7509,"y":5.2696,"z":6.0157,"size":1,"color":"#ff0000"},{"x":4.9363,"y":4.0662,"z":5.2671,"size":1,"color":"#ff0000"},{"x":4.4879,"y":6.613,"z":6.166,"size":1,"color":"#ff0000"},{"x":4.7577,"y":4.1553,"z":4.8956,"size":1,"color":"#ff0000"},{"x":1.9769,"y":3.3101,"z":5.2417,"size":1,"color":"#ff0000"},{"x":4.285,"y":3.0237,"z":5.4637,"size":1,"color":"#ff0000"},{"x":4.687,"y":7.3079,"z":6.8455,"size":1,"color":"#ff0000"},{"x":4.0791,"y":4.3404,"z":4.9182,"size":1,"color":"#ff0000"},{"x":3.2233,"y":7.8227,"z":5.5085,"size":1,"color":"#ff0000"},{"x":3.6109,"y":7.1791,"z":4.0149,"size":1,"color":"#ff0000"},{"x":2.532,"y":2.1764,"z":4.6673,"size":1,"color":"#ff0000"}]'></a-asset-item>
+</a-asset>
+</a-asset>
+<a-entity rotation='-15 30 0' charts='type: scatter; dataPoints: #data; axis_length: 10'></a-entity>
+<a-entity position='2 10 14' rotation='-30 5 0'>
+<a-camera position='0 -1 4' rotation='0 -1 0'></a-camera>
+</a-entity>
+<a-sky color='black'></a-sky>
+</a-scene>
+</body>
+
